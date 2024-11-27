@@ -5,7 +5,9 @@ interface favcardsProps {
 }
  
 const favcards: FunctionComponent<favcardsProps> = () => {
-    return ( <></> );
+    return ( <>
+    <h1>favcards</h1>
+    </> );
 }
  
 export default favcards;

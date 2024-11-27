@@ -5,7 +5,9 @@ interface MycardsProps {
 }
  
 const Mycards: FunctionComponent<MycardsProps> = () => {
-    return ( <></> );
+    return ( <>
+    <h1>mycards</h1>
+    </> );
 }
  
 export default Mycards;

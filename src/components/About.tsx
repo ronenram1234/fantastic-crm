@@ -5,7 +5,9 @@ interface AboutProps {
 }
  
 const About: FunctionComponent<AboutProps> = () => {
-    return (  <></>);
+    return (  <>
+    <h1>about</h1>
+    </>);
 }
  
 export default About;

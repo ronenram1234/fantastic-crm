@@ -5,7 +5,8 @@ interface FooterProps {
 }
  
 const Footer: FunctionComponent<FooterProps> = () => {
-    return ( <></> );
+    return ( <>
+    <h1>footer</h1></> );
 }
  
 export default Footer;

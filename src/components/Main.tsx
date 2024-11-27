@@ -5,7 +5,9 @@ interface MainProps {
 }
  
 const Main: FunctionComponent<MainProps> = () => {
-    return ( <></> );
+    return ( <>
+    <h1>main</h1>
+    </> );
 }
  
 export default Main;

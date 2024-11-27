@@ -5,7 +5,10 @@ interface NavBarProps {
 }
  
 const NavBar: FunctionComponent<NavBarProps> = () => {
-    return ( <></> );
+    return ( <>
+    <h1>
+    navbar</h1>
+    </> );
 }
  
 export default NavBar;
