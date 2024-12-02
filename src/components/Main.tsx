@@ -1,6 +1,6 @@
-import { FunctionComponent, useContext, useState } from "react";
+import { FunctionComponent, useContext } from "react";
 import { GlobalProps } from "../App";
-import ModalLoginReg from "./ModalLoginReg";
+
 
 interface MainProps {}
 

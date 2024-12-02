@@ -21,11 +21,11 @@ const ModalLoginReg: FunctionComponent<ModalLoginRegProps> = ({
   onHide,
   // modalAction,
 }) => {
-  function handleModalUpdate() {
-    // setModalShow(false)
-    console.log("handle");
-    onHide();
-  }
+  // function handleModalUpdate() {
+  //   // setModalShow(false)
+  //   console.log("handle");
+  //   onHide();
+  // }
 
   return (
     <>

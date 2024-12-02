@@ -1,9 +1,9 @@
 import { FunctionComponent, useContext } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { User, UserLoginFormValues } from "../interfaces/User";
+import {  UserLoginFormValues } from "../interfaces/User";
 // import { checkUser } from "../services/usersService";
-import { Link, NavigateFunction, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { errorMsg, successMsg } from "../services/feedbackService";
 import { getUser } from "../services/userServices";
 import { GlobalProps } from "../App";
@@ -16,9 +16,7 @@ interface LoginProps {
 //   password: string;
 // }
 
-const Login: FunctionComponent<LoginProps> = ({
- 
-}) => {
+const Login: FunctionComponent<LoginProps> = () => {
   // const navigate: NavigateFunction = useNavigate();
   const { setIsUsserLogedin } = useContext(GlobalProps);
 
@@ -29,8 +27,8 @@ const Login: FunctionComponent<LoginProps> = ({
       password: "",
     },
     validationSchema: yup.object({
-      email: yup.string().email().required(),
-      password: yup.string().required().min(4),
+      email: yup.string().email().required().min(5),
+      password: yup.string().required().min(7).max(20),
     }),
     onSubmit: async (values) => {
       getUser(values)
