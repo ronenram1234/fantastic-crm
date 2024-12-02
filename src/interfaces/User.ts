@@ -2,30 +2,33 @@ export interface User {
     _id: string;
     name: {
       first: string;
-      middle?: string; // Some records have an empty middle name
+      middle?: string; 
       last: string;
-      _id?: string; // Optional if not present in all records
+      _id?: string; 
     };
     phone: string;
     email: string;
     image?: {
       url: string;
       alt: string;
-      _id?: string; // Optional if not present in all records
+      _id?: string; 
     };
     address?: {
-      state?: string; // Some records use "not defined"
+      state?: string;
       country: string;
       city: string;
       street: string;
       houseNumber: number;
-      zip?: number; // Some records have a zip of 0 or missing
-      _id?: string; // Optional if not present in all records
+      zip?: number; 
+      _id?: string; 
     };
     isAdmin: boolean;
     isBusiness: boolean;
-    classCode?: string; // Some records might lack this property
+    classCode?: string; 
     createdAt: string;
   }
   
-  
+  export interface UserLoginFormValues {
+    email: string;
+    password: string;
+  }

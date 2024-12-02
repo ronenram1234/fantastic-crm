@@ -1,22 +1,28 @@
 import { FunctionComponent } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { User } from "../interfaces/User";
+import { User, UserLoginFormValues } from "../interfaces/User";
 // import { checkUser } from "../services/usersService";
 import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { errorMsg, successMsg } from "../services/feedbackService";
+import { getUser } from "../services/userServices";
 
 interface LoginProps {
-  setNotIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
-  setUserApp: React.Dispatch<React.SetStateAction<User>>;
+ 
 }
+// interface UserLoginFormValues {
+//   email: string;
+//   password: string;
+// }
 
 const Login: FunctionComponent<LoginProps> = ({
-  setNotIsLogin,
-  setUserApp,
+ 
 }) => {
   const navigate: NavigateFunction = useNavigate();
-  const formik = useFormik<User>({
+
+
+  
+  const formik = useFormik<UserLoginFormValues>({
     initialValues: {
       email: "",
       password: "",
@@ -26,18 +32,18 @@ const Login: FunctionComponent<LoginProps> = ({
       password: yup.string().required().min(4),
     }),
     onSubmit: async (values) => {
-      checkUser(values)
+      getUser(values)
         .then((res) => {
           if (res.data.length > 0) {
             console.log(res.data);
 
-            navigate("/products");
+            // navigate("/products");
 
        
-            setNotIsLogin(false);
-            setUserApp(res.data[0]);
-            // setUserName(values);
-            // userSetItem(values);
+            // setNotIsLogin(false);
+            // setUserApp(res.data[0]);
+            // // setUserName(values);
+            // // userSetItem(values);
             successMsg("Sucessful login");
           } else {
             console.log("User not found- ", res.data);

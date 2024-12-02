@@ -6,6 +6,7 @@ import NavBar from './components/NavBar';
 import Main from './components/Main';
 import PageNotFound from './components/PageNotFound';
 import Footer from './components/Footer';
+import ModalLoginReg from './components/ModalLoginReg';
 
 interface GlobalPropsType{
   isUserLogedin:boolean ;
@@ -38,6 +39,7 @@ function App() {
   const [isUserAdmin,setIsUsserAdmin]=useState(false)
   const [isUserBuisness,setIsUsserBuisness]=useState(false)
   const [isDarkMode,setIsDarkMode]=useState(false)
+  const [modalShow, setModalShow] = useState(true);
   
   
   const globalContextValue = {
@@ -54,7 +56,9 @@ function App() {
 
       <Router>
         <Routes>
-          <Route path="/" element={<Main />} />
+          {/* <Route path="/" element={<Main />} /> */}
+          <Route path="/" element={<ModalLoginReg show={modalShow}
+                onHide={() => setModalShow(false)} />} />
           {/* <Route path="/add-customer" element={<AddCustomer />} />
           <Route path="/update-customer/:id" element={<UpdateCustomer />} /> */}
            <Route path="*" element={<PageNotFound />} />
