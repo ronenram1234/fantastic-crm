@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext,  useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import "./App.css";
@@ -7,6 +7,7 @@ import Main from "./components/Main";
 import PageNotFound from "./components/PageNotFound";
 import Footer from "./components/Footer";
 import ModalLoginReg from "./components/ModalLoginReg";
+import { ToastContainer } from "react-bootstrap";
 
 interface GlobalPropsType {
   isUserLogedin: boolean;
@@ -34,7 +35,7 @@ function App() {
   const [isUserAdmin, setIsUsserAdmin] = useState(false);
   const [isUserBuisness, setIsUsserBuisness] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [modalShow, setModalShow] = useState(true);
+  
 
   const globalContextValue = {
     isUserLogedin,
@@ -47,31 +48,38 @@ function App() {
     setIsDarkMode,
   };
 
+  // useEffect(()=>{
+  //   setModalShow(!modalShow)
+  // },[isUserLogedin,modalShow])
+
   return (
     <GlobalProps.Provider value={globalContextValue}>
       <div className="App">
-        {isUserLogedin && <NavBar />}
+      <ToastContainer  />
+        
+        <NavBar />
 
         <Router>
           <Routes>
             {isUserLogedin ? (
               <Route path="/" element={<Main />} />
-            ) : (
+            ) : (<>
               <Route
                 path="/"
                 element={
                   <ModalLoginReg
-                    show={modalShow}
-                    onHide={() => setModalShow(false)}
+                    // show={true}
+                    // onHide={() => setModalShow(false)}
                   />
                 }
               />
-            )}
+           </> )}
 
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </Router>
-        {isUserLogedin && <Footer />}
+        {/* {isUserLogedin && <Footer />} */}
+        <Footer />
       </div>
     </GlobalProps.Provider>
   );

@@ -1,37 +1,35 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useContext, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Login from "./Login";
+import { GlobalProps } from "../App";
+import Register from "./Register";
 // import Button from "react-bootstrap/Button";
 // import { Product } from "../interfaces/Product";
 // import UpdateAdd from "./UpdateAdd";
 
 interface ModalLoginRegProps {
-  show: boolean;
+  // show: boolean;
   //   setModalShow:React.Dispatch<React.SetStateAction<boolean>>;
-  onHide: any;
+  // onHide: any;
   // modalAction: string;
   // selectedProduct:Product;
   // isProductChange: boolean;
   // setIsProductChange: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ModalLoginReg: FunctionComponent<ModalLoginRegProps> = ({
-  show,
-  //   setModalShow,
-  onHide,
-  // modalAction,
-}) => {
-  // function handleModalUpdate() {
-  //   // setModalShow(false)
-  //   console.log("handle");
-  //   onHide();
-  // }
+const ModalLoginReg: FunctionComponent<ModalLoginRegProps> = () => {
+
+  const { isUserLogedin } = useContext(GlobalProps);
+
+  const [isRegister,setIsResgister]=useState(true)
+
+
 
   return (
     <>
       <Modal
-        show={show}
-        onHide={onHide}
+        show={!isUserLogedin}
+        // onHide={onHide}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
@@ -42,7 +40,10 @@ const ModalLoginReg: FunctionComponent<ModalLoginRegProps> = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Login />
+          {isRegister ?
+          (<Register setIsResgister= {setIsResgister} />) : 
+          (<Login setIsResgister= {setIsResgister} />)
+          }
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>

@@ -1,4 +1,5 @@
-import { FunctionComponent, useContext, useState } from "react";
+
+import { FunctionComponent, useContext } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import {  UserLoginFormValues } from "../interfaces/User";
@@ -8,22 +9,13 @@ import { errorMsg, successMsg } from "../services/feedbackService";
 import { getUser } from "../services/userServices";
 import { GlobalProps } from "../App";
 
-interface LoginProps {
-  
-  setIsResgister:React.Dispatch<React.SetStateAction<boolean>>;
- 
+interface RegisterProps {
+    
+    setIsResgister:React.Dispatch<React.SetStateAction<boolean>>;
 }
-// interface UserLoginFormValues {
-//   email: string;
-//   password: string;
-// }
-
-const Login: FunctionComponent<LoginProps> = ({setIsResgister}) => {
-  // const navigate: NavigateFunction = useNavigate();
-  const { setIsUsserLogedin } = useContext(GlobalProps);
-  const [msg, setMsg]=useState("")
-
-  
+ 
+const Register: FunctionComponent<RegisterProps> = ({setIsResgister}) => {
+     
   const formik = useFormik<UserLoginFormValues>({
     initialValues: {
       email: "",
@@ -38,20 +30,18 @@ const Login: FunctionComponent<LoginProps> = ({setIsResgister}) => {
         .then((res) => {
           if (res.data.length > 0) {
             // console.log(res.data);
-            setIsUsserLogedin(true)
+            // setIsUsserLogedin(true)
            
             successMsg("Sucessful login");
           } else {
             console.log("User not found- ", res.data);
-            // errorMsg("User not found");
-            setMsg("User not found")
+            errorMsg("User not found");
           }
         }
       )
         .catch((err) => {
           console.log(err);
-          setMsg("Transaction Error")
-          // errorMsg(err);
+          errorMsg(err);
         });
     },
   });
@@ -59,7 +49,7 @@ const Login: FunctionComponent<LoginProps> = ({setIsResgister}) => {
   return (
     <>
       <div className="container d-flex justify-content-center align-item-center flex-column col-6">
-        <h5 className="display-5 my-2">LOGIN</h5>
+        <h5 className="display-5 my-2">Register</h5>
         <form onSubmit={formik.handleSubmit}>
           <div className="form-floating mb-3">
             <input
@@ -100,14 +90,14 @@ const Login: FunctionComponent<LoginProps> = ({setIsResgister}) => {
           >
             Login
           </button>
-           <p style={{color:"red"}}>{msg}</p>
         </form>
         <p className="mt-3">
-          <a onClick={()=>setIsResgister(true)}  style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}>New user? Register now</a>
+        <a onClick={()=>setIsResgister(false)}  style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}>Back to Login</a>
+          
         </p>
       </div>
     </>
   );
-};
-
-export default Login;
+}
+ 
+export default Register;
