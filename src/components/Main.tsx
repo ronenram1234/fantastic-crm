@@ -1,19 +1,26 @@
-import { FunctionComponent, useContext } from "react";
-import {GlobalProps} from "../App"
+import { FunctionComponent, useContext, useState } from "react";
+import { GlobalProps } from "../App";
+import ModalLoginReg from "./ModalLoginReg";
 
-interface MainProps {
-    
-}
- 
+interface MainProps {}
+
 const Main: FunctionComponent<MainProps> = () => {
 
-    const { isDarkMode } = useContext (GlobalProps)
 
-    return ( <>
-    <h1>main</h1>
-    <h2>{isDarkMode ? "isDarkMode- true" : "isDarkMode - false"}</h2>
-    
-    </> );
-}
- 
+  const { isDarkMode,isUserLogedin } = useContext(GlobalProps);
+
+  
+
+  return (
+    <>
+  
+      {isUserLogedin && (
+      <>
+        <h1>main</h1>
+        <h2>{isDarkMode ? "isDarkMode- true" : "isDarkMode - false"}</h2>
+      </>)}
+    </>
+  );
+};
+
 export default Main;

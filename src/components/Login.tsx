@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useContext } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { User, UserLoginFormValues } from "../interfaces/User";
@@ -6,6 +6,7 @@ import { User, UserLoginFormValues } from "../interfaces/User";
 import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { errorMsg, successMsg } from "../services/feedbackService";
 import { getUser } from "../services/userServices";
+import { GlobalProps } from "../App";
 
 interface LoginProps {
  
@@ -18,8 +19,8 @@ interface LoginProps {
 const Login: FunctionComponent<LoginProps> = ({
  
 }) => {
-  const navigate: NavigateFunction = useNavigate();
-
+  // const navigate: NavigateFunction = useNavigate();
+  const { setIsUsserLogedin } = useContext(GlobalProps);
 
   
   const formik = useFormik<UserLoginFormValues>({
@@ -35,21 +36,16 @@ const Login: FunctionComponent<LoginProps> = ({
       getUser(values)
         .then((res) => {
           if (res.data.length > 0) {
-            console.log(res.data);
-
-            // navigate("/products");
-
-       
-            // setNotIsLogin(false);
-            // setUserApp(res.data[0]);
-            // // setUserName(values);
-            // // userSetItem(values);
+            // console.log(res.data);
+            setIsUsserLogedin(true)
+           
             successMsg("Sucessful login");
           } else {
             console.log("User not found- ", res.data);
             errorMsg("User not found");
           }
-        })
+        }
+      )
         .catch((err) => {
           console.log(err);
           errorMsg(err);

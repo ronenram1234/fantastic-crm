@@ -8,21 +8,19 @@ export function createUser(user: User) {
 }
 
 export function getUser({ email, password }: UserLoginFormValues): Promise <AxiosResponse>{
-  const axios = require("axios");
-  let data = JSON.stringify({
+  // const axios = require("axios");
+  const data = {
     email: email,
     password: password,
-  });
+  };
 
-  let config = {
-    method: "post",
-    maxBodyLength: Infinity,
-    url: `${api}/login`,
+
+
+console.log(`API URL: ${api}/login, Data:`, { email, password });
+
+  return axios.post(`${api}/login`, data, {
     headers: {
       "Content-Type": "application/json",
     },
-    data: data,
-  };
-
-  return axios.requests(config);
+  })
 }
