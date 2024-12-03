@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useContext } from "react";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,6 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import React from "react";
+import { GlobalProps } from "../App";
 
 interface NavBarProps {
     
@@ -21,6 +22,8 @@ const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
  
 const NavBar: FunctionComponent<NavBarProps> = () => {
+  const { isUserLogedin,  token, currentUser ,isDarkMode} =
+  useContext(GlobalProps);
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   
@@ -156,6 +159,15 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
               </Menu>
             </Box>
           </Toolbar>
+          <>
+          <h4> {isUserLogedin && "logdin"}</h4>
+          <br />
+          <h4> {token}</h4>
+          {console.log(currentUser)}
+          <br />
+          <h4> {currentUser && currentUser.name.first} </h4>
+          <h4> {!isDarkMode && "not dark"}</h4>
+          </>
         </Container>
       </AppBar>
     );

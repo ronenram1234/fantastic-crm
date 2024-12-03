@@ -6,28 +6,32 @@ import { UserLoginFormValues } from "../interfaces/User";
 // import { Link } from "react-router-dom";
 // import { errorMsg, successMsg } from "../services/feedbackService";
 import {
-  getUserDetail,
+  
   getUserToken,
   setTokenLocalStorage,
-  tokenToDecoode,
+  
 } from "../services/userServices";
 import { GlobalProps } from "../App";
-import { Jwt } from "../interfaces/Jwt";
+// import { Jwt } from "../interfaces/Jwt";
+import { useSetCurrentUser } from "../services/useSetCurrentUser";
 
 interface LoginProps {
   setIsResgister: React.Dispatch<React.SetStateAction<boolean>>;
 }
 // interface UserLoginFormValues {
-//   email: string;
-//   password: string;
-// }
-
-const Login: FunctionComponent<LoginProps> = ({ setIsResgister }) => {
-  // const navigate: NavigateFunction = useNavigate();
-  const { setIsUsserLogedin, setToken, setCurrentUser } =
+  //   email: string;
+  //   password: string;
+  // }
+  
+  const Login: FunctionComponent<LoginProps> = ({ setIsResgister }) => {
+    // const navigate: NavigateFunction = useNavigate();
+    const {  setToken } =
     useContext(GlobalProps);
-  const [msg, setMsg] = useState("");
+    const [msg, setMsg] = useState("");
+    
+    useSetCurrentUser()
 
+    
   const formik = useFormik<UserLoginFormValues>({
     initialValues: {
       email: "",
@@ -44,30 +48,32 @@ const Login: FunctionComponent<LoginProps> = ({ setIsResgister }) => {
             console.log(res.data);
             setToken(res.data);
             setTokenLocalStorage(res.data);
-            const jwtUser: Jwt = tokenToDecoode(res.data);
 
-            getUserDetail(jwtUser._id, res.data)
-              .then((res) => {
-                setCurrentUser(res.data);
-              })
-              .catch((err) => {
-                console.log(err);
-                setMsg("Transaction Error");
-              });
+            
+            // const jwtUser: Jwt = tokenToDecoode(res.data);
 
-            setIsUsserLogedin(true);
+            // getUserDetail(jwtUser._id, res.data)
+            //   .then((res) => {
+            //     setCurrentUser(res.data);
+            //   })
+            //   .catch((err) => {
+            //     console.log(err);
+            //     setMsg("Transaction Error");
+            //   });
+
+            // setIsUsserLogedin(true);
 
             // successMsg("Sucessful login");
           } else {
             console.log("User not found- ", res.data);
-            // errorMsg("User not found");
+          
             setMsg("User not found");
           }
         })
         .catch((err) => {
           console.log(err);
           setMsg("Transaction Error");
-          // errorMsg(err);
+          
         });
     },
   });
