@@ -2,28 +2,84 @@
 import { FunctionComponent, useContext } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import {  UserLoginFormValues } from "../interfaces/User";
-// import { checkUser } from "../services/usersService";
-import { Link } from "react-router-dom";
-import { errorMsg, successMsg } from "../services/feedbackService";
-// import { getUser } from "../services/userServices";
-import { GlobalProps } from "../App";
+import { UserReg } from "../interfaces/User";
+
+
 
 interface RegisterProps {
     
-    setIsResgister:React.Dispatch<React.SetStateAction<boolean>>;
+    setIsRegister:React.Dispatch<React.SetStateAction<boolean>>;
 }
  
-const Register: FunctionComponent<RegisterProps> = ({setIsResgister}) => {
+const Register: FunctionComponent<RegisterProps> = ({setIsRegister}) => {
      
-  const formik = useFormik<UserLoginFormValues>({
+  const formik = useFormik<UserReg>({
     initialValues: {
+      name: {
+        first: "",
+        middle: "",
+        last: "",
+      },
+      phone: "",
       email: "",
       password: "",
+      image: {
+        url: "",
+        alt: "",
+      },
+      address: {
+        state: "",
+        country: "",
+        city: "",
+        street: "",
+        houseNumber: 0,
+        zip: undefined,
+      },
+      isBusiness: false,
     },
     validationSchema: yup.object({
-      email: yup.string().email().required().min(5),
-      password: yup.string().required().min(7).max(20),
+      name: yup.object({
+        first: yup.string().required().min(2).max(256),
+        middle: yup.string().min(2).max(256),
+        last: yup.string().required().min(2).max(256),
+      }),
+      phone: yup
+        .string()
+        .required().min(9).max(1)
+        .matches(/^\+?[0-9]{7,15}$/, "Invalid phone number"),
+      email: yup
+        .string()
+        .email("Invalid email address")
+        .required()
+        .min(5, "must be at least 5 characters"),
+      password: yup
+        .string()
+        .required()
+        .min(7, "must be at least 7 characters")
+        .max(20, "cannot exceed 20 characters"),
+      image: yup.object({
+        url: yup
+          .string().min(14)
+          .url("Invalid URL"),
+        alt: yup.string().min(2).max(256),
+      }),
+      address: yup.object({
+        state: yup.string().min(2).max(256),
+        country: yup.string().required().min(2).max(256),
+        city: yup.string().required().min(2).max(256),
+        street: yup.string().required().min(2).max(256),
+        houseNumber: yup
+          .number()
+          .required().min(2).max(256)
+          .positive()
+          .integer(),
+        zip: yup
+          .number()
+          .positive("ZIP code must be positive")
+          .integer("ZIP code must be an integer")
+          .required().min(2).max(256),
+      }),
+      isBusiness: yup.boolean().required(),
     }),
     onSubmit: async (values) => {
       // getUser(values)
@@ -92,7 +148,7 @@ const Register: FunctionComponent<RegisterProps> = ({setIsResgister}) => {
           </button>
         </form>
         <p className="mt-3">
-        <a onClick={()=>setIsResgister(false)}  style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}>Back to Login</a>
+        <a onClick={()=>setIsRegister(false)}  style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}>Back to Login</a>
           
         </p>
       </div>

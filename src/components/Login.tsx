@@ -16,14 +16,14 @@ import { GlobalProps } from "../App";
 import { useSetCurrentUser } from "../services/useSetCurrentUser";
 
 interface LoginProps {
-  setIsResgister: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
 }
 // interface UserLoginFormValues {
   //   email: string;
   //   password: string;
   // }
   
-  const Login: FunctionComponent<LoginProps> = ({ setIsResgister }) => {
+  const Login: FunctionComponent<LoginProps> = ({ setIsRegister }) => {
     // const navigate: NavigateFunction = useNavigate();
     const {  setToken } =
     useContext(GlobalProps);
@@ -127,7 +127,7 @@ interface LoginProps {
         <p className="mt-3">
           <a
            
-            onClick={() => setIsResgister(true)}
+            onClick={() => setIsRegister(true)}
             style={{
               color: "blue",
               cursor: "pointer",
