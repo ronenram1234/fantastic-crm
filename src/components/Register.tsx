@@ -6,7 +6,7 @@ import {  UserLoginFormValues } from "../interfaces/User";
 // import { checkUser } from "../services/usersService";
 import { Link } from "react-router-dom";
 import { errorMsg, successMsg } from "../services/feedbackService";
-import { getUser } from "../services/userServices";
+// import { getUser } from "../services/userServices";
 import { GlobalProps } from "../App";
 
 interface RegisterProps {
@@ -26,23 +26,23 @@ const Register: FunctionComponent<RegisterProps> = ({setIsResgister}) => {
       password: yup.string().required().min(7).max(20),
     }),
     onSubmit: async (values) => {
-      getUser(values)
-        .then((res) => {
-          if (res.data.length > 0) {
-            // console.log(res.data);
-            // setIsUsserLogedin(true)
+      // getUser(values)
+      //   .then((res) => {
+      //     if (res.data.length > 0) {
+      //       // console.log(res.data);
+      //       // setIsUsserLogedin(true)
            
-            successMsg("Sucessful login");
-          } else {
-            console.log("User not found- ", res.data);
-            errorMsg("User not found");
-          }
-        }
-      )
-        .catch((err) => {
-          console.log(err);
-          errorMsg(err);
-        });
+      //       successMsg("Sucessful login");
+      //     } else {
+      //       console.log("User not found- ", res.data);
+      //       errorMsg("User not found");
+      //     }
+      //   }
+      // )
+      //   .catch((err) => {
+      //     console.log(err);
+      //     errorMsg(err);
+      //   });
     },
   });
 

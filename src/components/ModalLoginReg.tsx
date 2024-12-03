@@ -21,7 +21,7 @@ const ModalLoginReg: FunctionComponent<ModalLoginRegProps> = () => {
 
   const { isUserLogedin } = useContext(GlobalProps);
 
-  const [isRegister,setIsResgister]=useState(true)
+  const [isRegister,setIsResgister]=useState(false)
 
 
 

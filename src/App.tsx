@@ -1,4 +1,4 @@
-import React, { createContext,  useState } from "react";
+import React, { createContext,  useEffect,  useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import "./App.css";
@@ -8,49 +8,57 @@ import PageNotFound from "./components/PageNotFound";
 import Footer from "./components/Footer";
 import ModalLoginReg from "./components/ModalLoginReg";
 import { ToastContainer } from "react-bootstrap";
+import { User } from "./interfaces/User";
 
 interface GlobalPropsType {
   isUserLogedin: boolean;
   setIsUsserLogedin: React.Dispatch<React.SetStateAction<boolean>>;
-  isUserAdmin: boolean;
-  setIsUsserAdmin: React.Dispatch<React.SetStateAction<boolean>>;
-  isUserBuisness: boolean;
-  setIsUsserBuisness: React.Dispatch<React.SetStateAction<boolean>>;
+  token: string;
+  setToken:React.Dispatch<React.SetStateAction<string>> ;
+  currentUser:User|null;
+  setCurrentUser:React.Dispatch<React.SetStateAction<User | null>>;
+  
   isDarkMode: boolean;
   setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export const GlobalProps = createContext<GlobalPropsType>({
   isUserLogedin: false,
   setIsUsserLogedin: () => {},
-  isUserAdmin: false,
-  setIsUsserAdmin: () => {},
-  isUserBuisness: false,
-  setIsUsserBuisness: () => {},
+  token:"",
+  setToken:()=>{},
+  currentUser:null,
+  setCurrentUser:()=>{},
+  
   isDarkMode: false,
   setIsDarkMode: () => {},
 });
 
 function App() {
   const [isUserLogedin, setIsUsserLogedin] = useState(false);
-  const [isUserAdmin, setIsUsserAdmin] = useState(false);
-  const [isUserBuisness, setIsUsserBuisness] = useState(false);
+  const [token,setToken]=useState("")
+  const [currentUser,setCurrentUser]= useState<User|null>(null)
   const [isDarkMode, setIsDarkMode] = useState(false);
+  
+  // useEffect(()=>{
+  //   console.log(currentUser)
+  // },[currentUser])
+  // useEffect(()=>{
+  //   console.log(token)
+  // },[token])
   
 
   const globalContextValue = {
     isUserLogedin,
     setIsUsserLogedin,
-    isUserAdmin,
-    setIsUsserAdmin,
-    isUserBuisness,
-    setIsUsserBuisness,
+    token,
+    setToken,
+    currentUser,
+    setCurrentUser,
     isDarkMode,
     setIsDarkMode,
   };
 
-  // useEffect(()=>{
-  //   setModalShow(!modalShow)
-  // },[isUserLogedin,modalShow])
+
 
   return (
     <GlobalProps.Provider value={globalContextValue}>
