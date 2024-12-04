@@ -1,33 +1,39 @@
 import { useContext, useEffect } from "react";
 import { Jwt } from "../interfaces/Jwt";
-import { getUserDetail, tokenToDecoode } from "./userServices";
+import { getTokenLocalStorage, getUserDetail, removeTokenLocalStorage, tokenToDecoode } from "./userServices";
 import { GlobalProps } from "../App";
 
 
 
 export function useSetCurrentUser(){
-    const { setIsUsserLogedin,  token, setCurrentUser } =
+    const { setIsUsserLogedin,  setToken, token,setCurrentUser } =
     useContext(GlobalProps);
 
     useEffect(()=>{
-        if (!token) {
-            // alert("No token provided");
-            return;
-          }
 
-        const jwtUser: Jwt = tokenToDecoode(token);
 
-        getUserDetail(jwtUser._id, token)
-          .then((res) => {
+      const localToken = getTokenLocalStorage();
+      if (localToken !== "") {
+        // setIsUsserLogedin(true);
+        const jwtUser: Jwt = tokenToDecoode(localToken);
+        getUserDetail(jwtUser._id, localToken)
+        .then((res) => {
+            setToken(localToken);
             setCurrentUser(res.data);
+            setIsUsserLogedin(true);
           })
           .catch((err) => {
             console.log(err);
             alert("Transaction Error");
+            removeTokenLocalStorage()
+            setIsUsserLogedin(false)
           });
+      }
 
-        setIsUsserLogedin(true);
 
-    },[ setIsUsserLogedin,  token, setCurrentUser])
+
+
+
+    },[token])
     
 }

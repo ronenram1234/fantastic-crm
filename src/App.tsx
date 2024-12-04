@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext,  useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import "./App.css";
@@ -9,7 +9,7 @@ import Footer from "./components/Footer";
 import ModalLoginReg from "./components/ModalLoginReg";
 import { ToastContainer } from "react-bootstrap";
 import { User } from "./interfaces/User";
-import { getTokenLocalStorage } from "./services/userServices";
+
 import { useSetCurrentUser } from "./services/useSetCurrentUser";
 
 interface GlobalPropsType {
@@ -55,13 +55,7 @@ function App() {
   // check if user alreadt login before
   useSetCurrentUser();
 
-  useEffect(() => {
-    const localToken = getTokenLocalStorage();
-    if (localToken !== "") {
-      setToken(localToken);
-      setIsUsserLogedin(true);
-    }
-  }, [setToken]);
+ 
 
   return (
     <GlobalProps.Provider value={globalContextValue}>

@@ -16,27 +16,50 @@ const Register: FunctionComponent<RegisterProps> = ({setIsRegister}) => {
   const formik = useFormik<UserReg>({
     initialValues: {
       name: {
-        first: "",
+        first: "daniel",
         middle: "",
-        last: "",
+        last: "fefer",
       },
-      phone: "",
-      email: "",
-      password: "",
+      phone: "0516543424",
+      email: "daniel@google.com",
+      password: "Abc!123Ab1",
       image: {
-        url: "",
-        alt: "",
+        url: "https://assetsio.gnwcdn.com/manorlords.jpg?width=1200&height=600&fit=crop&enable=upscale&auto=webp",
+        alt: "historic",
       },
       address: {
-        state: "",
-        country: "",
-        city: "",
-        street: "",
-        houseNumber: 0,
-        zip: undefined,
+        state: "mo",
+        country: "United States",
+        city: "Kensas city",
+        street: "5 Avn.",
+        houseNumber: 5,
+        zip: 46321,
       },
       isBusiness: false,
     },
+    // initialValues: {
+    //   name: {
+    //     first: "",
+    //     middle: "",
+    //     last: "",
+    //   },
+    //   phone: "",
+    //   email: "",
+    //   password: "",
+    //   image: {
+    //     url: "",
+    //     alt: "",
+    //   },
+    //   address: {
+    //     state: "",
+    //     country: "",
+    //     city: "",
+    //     street: "",
+    //     houseNumber: 0,
+    //     zip: 0,
+    //   },
+    //   isBusiness: false,
+    // },
     validationSchema: yup.object({
       name: yup.object({
         first: yup.string().required().min(2).max(256),
