@@ -12,24 +12,20 @@ import {
   
 } from "../services/userServices";
 import { GlobalProps } from "../App";
-// import { Jwt } from "../interfaces/Jwt";
-import { useSetCurrentUser } from "../services/useSetCurrentUser";
+
 
 interface LoginProps {
   setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
 }
-// interface UserLoginFormValues {
-  //   email: string;
-  //   password: string;
-  // }
+
   
   const Login: FunctionComponent<LoginProps> = ({ setIsRegister }) => {
     // const navigate: NavigateFunction = useNavigate();
-    const {  setToken } =
+    const {  setToken,setIsUsserLogedin } =
     useContext(GlobalProps);
     const [msg, setMsg] = useState("");
     
-    useSetCurrentUser()
+
 
     
   const formik = useFormik<UserLoginFormValues>({
@@ -48,21 +44,10 @@ interface LoginProps {
             console.log(res.data);
             setToken(res.data);
             setTokenLocalStorage(res.data);
+            setIsUsserLogedin(true)
 
             
-            // const jwtUser: Jwt = tokenToDecoode(res.data);
-
-            // getUserDetail(jwtUser._id, res.data)
-            //   .then((res) => {
-            //     setCurrentUser(res.data);
-            //   })
-            //   .catch((err) => {
-            //     console.log(err);
-            //     setMsg("Transaction Error");
-            //   });
-
-            // setIsUsserLogedin(true);
-
+         
             // successMsg("Sucessful login");
           } else {
             console.log("User not found- ", res.data);

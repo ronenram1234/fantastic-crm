@@ -5,7 +5,7 @@ import { GlobalProps } from "../App";
 
 
 
-export function useSetCurrentUser(){
+export function useSetCurrentUser1(){
     const { setIsUsserLogedin,  setToken, token,setCurrentUser } =
     useContext(GlobalProps);
 

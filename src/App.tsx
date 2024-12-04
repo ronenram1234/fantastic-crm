@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext,  useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import "./App.css";
@@ -6,11 +6,13 @@ import NavBar from "./components/NavBar";
 import Main from "./components/Main";
 import PageNotFound from "./components/PageNotFound";
 import Footer from "./components/Footer";
-import ModalLoginReg from "./components/ModalLoginReg";
+
 import { ToastContainer } from "react-bootstrap";
 import { User } from "./interfaces/User";
 
-import { useSetCurrentUser } from "./services/useSetCurrentUser";
+// import { useSetCurrentUser } from "./services/useSetCurrentUser";
+import { getTokenLocalStorage, getUserDetail, removeTokenLocalStorage, tokenToDecoode } from "./services/userServices";
+import { Jwt } from "./interfaces/Jwt";
 
 interface GlobalPropsType {
   isUserLogedin: boolean;
@@ -36,9 +38,11 @@ export const GlobalProps = createContext<GlobalPropsType>({
 });
 
 function App() {
-  const [isUserLogedin, setIsUsserLogedin] = useState(false);
-  const [isLoaclUserLogedin, setLocalIsUsserLogedin] = useState("");
-  const [token, setToken] = useState("");
+  const localToken=getTokenLocalStorage() || ""
+  console.log(localToken)
+  const [token, setToken] = useState(localToken);
+  const [isUserLogedin, setIsUsserLogedin] = useState(localToken===""? false : true);
+  
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -54,13 +58,25 @@ function App() {
   };
 
   // check if user alreadt login before
-  useSetCurrentUser();
+  // useSetCurrentUser();
+  
+  if (localToken !== "") {
+    // setIsUsserLogedin(true);
+    const jwtUser: Jwt = tokenToDecoode(localToken);
+    getUserDetail(jwtUser._id, localToken)
+    .then((res) => {
+        // setToken(localToken);
+        setCurrentUser(res.data);
+        // setIsUsserLogedin(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Transaction Error");
+        removeTokenLocalStorage()
+        setIsUsserLogedin(false)
+      });}
 
-  useEffect(()=>{
-    isUserLogedin ? console.log("yes") : console.log("yes")
-    
-    // console.log(t)
-  }, [isUserLogedin])
+  
 
   return (
     <GlobalProps.Provider value={globalContextValue}>
@@ -69,22 +85,15 @@ function App() {
           <ToastContainer />
 
           <NavBar />
-         
+
           <Router>
             <Routes>
-              {/* {isUserLogedin ? ( */}
-                <Route path="/" element={<Main />} />
-              {/* ) : (
-                <>
-                {console.log("calling ModalLoginReg ")}
-                 
-                </>
-              )} */}
+              <Route path="/" element={<Main />} />
 
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </Router>
-          {/* {isUserLogedin && <Footer />} */}
+
           <Footer />
         </>
       </div>
