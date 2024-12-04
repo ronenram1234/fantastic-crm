@@ -2,32 +2,18 @@ import { FunctionComponent, useContext, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { UserLoginFormValues } from "../interfaces/User";
-// import { checkUser } from "../services/usersService";
-// import { Link } from "react-router-dom";
-// import { errorMsg, successMsg } from "../services/feedbackService";
-import {
-  
-  getUserToken,
-  setTokenLocalStorage,
-  
-} from "../services/userServices";
-import { GlobalProps } from "../App";
 
+import { getUserToken, setTokenLocalStorage } from "../services/userServices";
+import { GlobalProps } from "../App";
 
 interface LoginProps {
   setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-  
-  const Login: FunctionComponent<LoginProps> = ({ setIsRegister }) => {
-    // const navigate: NavigateFunction = useNavigate();
-    const {  setToken,setIsUsserLogedin } =
-    useContext(GlobalProps);
-    const [msg, setMsg] = useState("");
-    
+const Login: FunctionComponent<LoginProps> = ({ setIsRegister }) => {
+  const { setToken, setIsUsserLogedin } = useContext(GlobalProps);
+  const [msg, setMsg] = useState("");
 
-
-    
   const formik = useFormik<UserLoginFormValues>({
     initialValues: {
       email: "",
@@ -44,21 +30,18 @@ interface LoginProps {
             console.log(res.data);
             setToken(res.data);
             setTokenLocalStorage(res.data);
-            setIsUsserLogedin(true)
+            setIsUsserLogedin(true);
 
-            
-         
             // successMsg("Sucessful login");
           } else {
             console.log("User not found- ", res.data);
-          
+
             setMsg("User not found");
           }
         })
         .catch((err) => {
           console.log(err);
           setMsg("Transaction Error");
-          
         });
     },
   });
@@ -110,7 +93,7 @@ interface LoginProps {
           <p style={{ color: "red" }}>{msg}</p>
         </form>
         <p className="mt-3">
-          <a
+          {/* <a
            
             onClick={() => setIsRegister(true)}
             style={{
@@ -120,7 +103,23 @@ interface LoginProps {
             }}
           >
             New user? Register now
-          </a>
+          </a> */}
+
+          <button
+            onClick={() => setIsRegister(true)}
+            style={{
+              color: "blue",
+              cursor: "pointer",
+              textDecoration: "underline",
+              background: "none",
+              border: "none",
+              padding: 0,
+              fontSize: "inherit",
+              fontFamily: "inherit",
+            }}
+          >
+            New user? Register now
+          </button>
         </p>
       </div>
     </>

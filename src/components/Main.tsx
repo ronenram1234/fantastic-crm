@@ -11,18 +11,18 @@ const Main: FunctionComponent<MainProps> = () => {
 
   return (
     <>
-      {isUserLogedin ? console.log("3-yes") : console.log("3-no")}
+      {/* {isUserLogedin ? console.log("3-yes") : console.log("3-no")} */}
       {isUserLogedin ? (
         <>
-          {isUserLogedin ? console.log("1-yes") : console.log("1-no")}
+          {/* {isUserLogedin ? console.log("1-yes") : console.log("1-no")} */}
           <h1>main</h1>
-          <h2>{isDarkMode ? "isDarkMode- true" : "isDarkMode - false"}</h2>
+          {/* <h2>{isDarkMode ? "isDarkMode- true" : "isDarkMode - false"}</h2> */}
         </>
       ) : (
         <>
         <ModalLoginReg />
-          {isUserLogedin ? console.log("2-yes") : console.log("2-no")}
-          {console.log("modal")}
+          {/* {isUserLogedin ? console.log("2-yes") : console.log("2-no")} */}
+          {/* {console.log("modal")} */}
         </>
       )}
     </>

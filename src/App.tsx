@@ -1,4 +1,4 @@
-import React, { createContext,  useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import "./App.css";
@@ -11,7 +11,12 @@ import { ToastContainer } from "react-bootstrap";
 import { User } from "./interfaces/User";
 
 // import { useSetCurrentUser } from "./services/useSetCurrentUser";
-import { getTokenLocalStorage, getUserDetail, removeTokenLocalStorage, tokenToDecoode } from "./services/userServices";
+import {
+  getTokenLocalStorage,
+  getUserDetail,
+  removeTokenLocalStorage,
+  tokenToDecoode,
+} from "./services/userServices";
 import { Jwt } from "./interfaces/Jwt";
 
 interface GlobalPropsType {
@@ -38,11 +43,13 @@ export const GlobalProps = createContext<GlobalPropsType>({
 });
 
 function App() {
-  const localToken=getTokenLocalStorage() || ""
-  console.log(localToken)
+  const localToken = getTokenLocalStorage() || "";
+  // console.log(localToken);
   const [token, setToken] = useState(localToken);
-  const [isUserLogedin, setIsUsserLogedin] = useState(localToken===""? false : true);
-  
+  const [isUserLogedin, setIsUsserLogedin] = useState(
+    localToken === "" ? false : true
+  );
+
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -59,24 +66,21 @@ function App() {
 
   // check if user alreadt login before
   // useSetCurrentUser();
-  
+useEffect(()=>{
   if (localToken !== "") {
     // setIsUsserLogedin(true);
     const jwtUser: Jwt = tokenToDecoode(localToken);
     getUserDetail(jwtUser._id, localToken)
-    .then((res) => {
-        // setToken(localToken);
+      .then((res) => {
         setCurrentUser(res.data);
-        // setIsUsserLogedin(true);
       })
       .catch((err) => {
         console.log(err);
-        alert("Transaction Error");
-        removeTokenLocalStorage()
-        setIsUsserLogedin(false)
-      });}
-
-  
+        // alert("Transaction Error");
+        removeTokenLocalStorage();
+        setIsUsserLogedin(false);
+      });
+  }},[])
 
   return (
     <GlobalProps.Provider value={globalContextValue}>
@@ -85,7 +89,7 @@ function App() {
           <ToastContainer />
 
           <NavBar />
-
+{console.log("App")}
           <Router>
             <Routes>
               <Route path="/" element={<Main />} />
