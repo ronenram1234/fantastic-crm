@@ -1,4 +1,4 @@
-import React, { createContext,  useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import "./App.css";
@@ -37,6 +37,7 @@ export const GlobalProps = createContext<GlobalPropsType>({
 
 function App() {
   const [isUserLogedin, setIsUsserLogedin] = useState(false);
+  const [isLoaclUserLogedin, setLocalIsUsserLogedin] = useState("");
   const [token, setToken] = useState("");
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -55,38 +56,37 @@ function App() {
   // check if user alreadt login before
   useSetCurrentUser();
 
- 
+  useEffect(()=>{
+    isUserLogedin ? console.log("yes") : console.log("yes")
+    
+    // console.log(t)
+  }, [isUserLogedin])
 
   return (
     <GlobalProps.Provider value={globalContextValue}>
       <div className="App">
-        <ToastContainer />
+        <>
+          <ToastContainer />
 
-        <NavBar />
+          <NavBar />
+         
+          <Router>
+            <Routes>
+              {/* {isUserLogedin ? ( */}
+                <Route path="/" element={<Main />} />
+              {/* ) : (
+                <>
+                {console.log("calling ModalLoginReg ")}
+                 
+                </>
+              )} */}
 
-        <Router>
-          <Routes>
-            {isUserLogedin ? (
-              <Route path="/" element={<Main />} />
-            ) : (
-              <>
-                <Route
-                  path="/"
-                  element={
-                    <ModalLoginReg
-                    // show={true}
-                    // onHide={() => setModalShow(false)}
-                    />
-                  }
-                />
-              </>
-            )}
-
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-        </Router>
-        {/* {isUserLogedin && <Footer />} */}
-        <Footer />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+          </Router>
+          {/* {isUserLogedin && <Footer />} */}
+          <Footer />
+        </>
       </div>
     </GlobalProps.Provider>
   );

@@ -163,7 +163,7 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
           <h4> {isUserLogedin && "logdin"}</h4>
           <br />
           <h4> {token}</h4>
-          {console.log(currentUser)}
+          {/* {console.log(currentUser)} */}
           <br />
           <h4> {currentUser && currentUser.name.first} </h4>
           <h4> {!isDarkMode && "not dark"}</h4>
