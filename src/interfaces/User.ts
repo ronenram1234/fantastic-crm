@@ -8,9 +8,9 @@ export interface User {
     };
     phone: string;
     email: string;
-    image?: {
-      url: string;
-      alt: string;
+    image: {
+      url?: string;
+      alt?: string;
       _id?: string; 
     };
     address: {
@@ -40,9 +40,9 @@ export interface UserReg {
     phone: string;
     email: string;
     password: string;
-    image?: {
-      url: string;
-      alt: string;
+    image: {
+      url?: string;
+      alt?: string;
       
     };
     address: {

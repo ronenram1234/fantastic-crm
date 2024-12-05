@@ -1,18 +1,14 @@
-
 import { FunctionComponent, useContext } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { UserReg } from "../interfaces/User";
-
-
+import TextField from "@mui/material/TextField";
 
 interface RegisterProps {
-    
-    setIsRegister:React.Dispatch<React.SetStateAction<boolean>>;
+  setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
 }
- 
-const Register: FunctionComponent<RegisterProps> = ({setIsRegister}) => {
-     
+
+const Register: FunctionComponent<RegisterProps> = ({ setIsRegister }) => {
   const formik = useFormik<UserReg>({
     initialValues: {
       name: {
@@ -68,7 +64,9 @@ const Register: FunctionComponent<RegisterProps> = ({setIsRegister}) => {
       }),
       phone: yup
         .string()
-        .required().min(9).max(1)
+        .required()
+        .min(9)
+        .max(11)
         .matches(/^\+?[0-9]{7,15}$/, "Invalid phone number"),
       email: yup
         .string()
@@ -81,9 +79,7 @@ const Register: FunctionComponent<RegisterProps> = ({setIsRegister}) => {
         .min(7, "must be at least 7 characters")
         .max(20, "cannot exceed 20 characters"),
       image: yup.object({
-        url: yup
-          .string().min(14)
-          .url("Invalid URL"),
+        url: yup.string().min(14).url("Invalid URL"),
         alt: yup.string().min(2).max(256),
       }),
       address: yup.object({
@@ -93,14 +89,18 @@ const Register: FunctionComponent<RegisterProps> = ({setIsRegister}) => {
         street: yup.string().required().min(2).max(256),
         houseNumber: yup
           .number()
-          .required().min(2).max(256)
+          .required()
+          .min(2)
+          .max(256)
           .positive()
           .integer(),
         zip: yup
           .number()
           .positive("ZIP code must be positive")
           .integer("ZIP code must be an integer")
-          .required().min(2).max(256),
+          .required()
+          .min(2)
+          .max(256),
       }),
       isBusiness: yup.boolean().required(),
     }),
@@ -110,7 +110,6 @@ const Register: FunctionComponent<RegisterProps> = ({setIsRegister}) => {
       //     if (res.data.length > 0) {
       //       // console.log(res.data);
       //       // setIsUsserLogedin(true)
-           
       //       successMsg("Sucessful login");
       //     } else {
       //       console.log("User not found- ", res.data);
@@ -127,56 +126,340 @@ const Register: FunctionComponent<RegisterProps> = ({setIsRegister}) => {
 
   return (
     <>
-      <div className="container d-flex justify-content-center align-item-center flex-column col-6">
+      <div className="container d-flex justify-content-center align-item-center flex-column col-12">
         <h5 className="display-5 my-2">Register</h5>
         <form onSubmit={formik.handleSubmit}>
-          <div className="form-floating mb-3">
-            <input
-              type="email"
-              className="form-control"
-              id="floatingInput"
-              placeholder="name@example.com"
-              name="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            <label htmlFor="floatingInput">Email address</label>
-            {formik.touched.email && formik.errors.email && (
-              <p className="text-danger">{formik.errors.email}</p>
-            )}
+          {/* line 1 */}
+          <div className="d-flex justify-content-center align-item-center flex-row col-12 mt-4">
+            <div className="form-floating mx-3 col-6">
+              <TextField
+                variant="outlined"
+                label="First name"
+                type="text"
+                name="first"
+                value={formik.values.name.first}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                fullWidth
+                error={
+                  formik.touched.name?.first &&
+                  Boolean(formik.errors.name?.first)
+                }
+                helperText={
+                  formik.touched.name?.first && formik.errors.name?.first
+                }
+              />
+            </div>
+
+            <div className="form-floating  col-6">
+              <TextField
+                variant="outlined"
+                label="Middle name"
+                type="text"
+                name="middle"
+                value={formik.values.name.middle}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                fullWidth
+                error={
+                  formik.touched.name?.middle &&
+                  Boolean(formik.errors.name?.middle)
+                }
+                helperText={
+                  formik.touched.name?.middle && formik.errors.name?.middle
+                }
+              />
+            </div>
           </div>
-          <div className="form-floating">
-            <input
-              type="password"
-              className="form-control"
-              id="floatingPassword"
-              placeholder="Password"
-              name="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            <label htmlFor="floatingPassword">Password</label>
-            {formik.touched.password && formik.errors.password && (
-              <p className="text-danger">{formik.errors.password}</p>
-            )}
+
+          {/* line 2 */}
+          <div className="d-flex justify-content-center align-item-center flex-row col-12 mt-4">
+            <div className="form-floating mx-3 col-6">
+              <TextField
+                variant="outlined"
+                label="Last name"
+                type="text"
+                name="last"
+                value={formik.values.name.last}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                fullWidth
+                error={
+                  formik.touched.name?.last && Boolean(formik.errors.name?.last)
+                }
+                helperText={
+                  formik.touched.name?.last && formik.errors.name?.last
+                }
+              />
+            </div>
+
+            <div className="form-floating  col-6">
+              <TextField
+                variant="outlined"
+                label="Phone"
+                type="tel"
+                name="phone"
+                value={formik.values.phone}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                fullWidth
+                error={formik.touched.phone && Boolean(formik.errors.phone)}
+                helperText={formik.touched.phone && formik.errors.phone}
+              />
+            </div>
           </div>
-          <button
-            className="btn btn-primary mt-3 w-100"
-            type="submit"
-            disabled={!formik.dirty || !formik.isValid}
-          >
-            Login
-          </button>
+
+          {/* line 3 */}
+          <div className="d-flex justify-content-center align-item-center flex-row col-12 mt-4">
+            <div className="form-floating mx-3 col-6">
+              <TextField
+                variant="outlined"
+                label="Email"
+                type="email"
+                name="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                fullWidth
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+              />
+            </div>
+
+            <div className="form-floating  col-6">
+              <TextField
+                variant="outlined"
+                label="Password"
+                type="password"
+                name="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                fullWidth
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
+                helperText={formik.touched.password && formik.errors.password}
+              />
+            </div>
+          </div>
+
+          {/* line 4 */}
+          <div className="d-flex justify-content-center align-item-center flex-row col-12 mt-4">
+            <div className="form-floating mx-3 col-6">
+              <TextField
+                variant="outlined"
+                label="URL"
+                type="url"
+                name="image.url"
+                value={formik.values.image?.url}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                fullWidth
+                error={Boolean(
+                  formik.touched.image?.url && formik.errors.image?.url
+                )}
+                helperText={
+                  formik.touched.image?.url && formik.errors.image?.url
+                }
+              />
+            </div>
+
+            <div className="form-floating  col-6">
+              <TextField
+                variant="outlined"
+                label="alt"
+                type="text"
+                name="image.alt"
+                value={formik.values.image?.alt}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                fullWidth
+                error={
+                  formik.touched.image?.alt && Boolean(formik.errors.image?.alt)
+                }
+                helperText={
+                  formik.touched.image?.alt && formik.errors.image?.alt
+                }
+              />
+            </div>
+          </div>
+
+          {/* line 5 */}
+          <div className="d-flex justify-content-center align-item-center flex-row col-12 mt-4">
+            <div className="form-floating mx-3 col-6">
+              <TextField
+                variant="outlined"
+                label="state"
+                type="text"
+                name="address.state"
+                value={formik.values.address?.state}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                fullWidth
+                error={Boolean(
+                  formik.touched.address?.state && formik.errors.address?.state
+                )}
+                helperText={
+                  formik.touched.address?.state && formik.errors.address?.state
+                }
+              />
+            </div>
+
+            <div className="form-floating  col-6">
+              <TextField
+                variant="outlined"
+                label="country"
+                type="text"
+                name="address.country"
+                value={formik.values.address?.country}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                fullWidth
+                error={
+                  formik.touched.address?.country &&
+                  Boolean(formik.errors.address?.country)
+                }
+                helperText={
+                  formik.touched.address?.country &&
+                  formik.errors.address?.country
+                }
+              />
+            </div>
+          </div>
+
+          {/* line 6 */}
+          <div className="d-flex justify-content-center align-item-center flex-row col-12 mt-4">
+            <div className="form-floating mx-3 col-6">
+              <TextField
+                variant="outlined"
+                label="city"
+                type="text"
+                name="address.city"
+                value={formik.values.address?.city}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                fullWidth
+                error={Boolean(
+                  formik.touched.address?.city && formik.errors.address?.city
+                )}
+                helperText={
+                  formik.touched.address?.city && formik.errors.address?.city
+                }
+              />
+            </div>
+
+            <div className="form-floating  col-6">
+              <TextField
+                variant="outlined"
+                label="street"
+                type="text"
+                name="address.street"
+                value={formik.values.address?.street}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                fullWidth
+                error={
+                  formik.touched.address?.street &&
+                  Boolean(formik.errors.address?.street)
+                }
+                helperText={
+                  formik.touched.address?.street &&
+                  formik.errors.address?.street
+                }
+              />
+            </div>
+          </div>
+
+          {/* line 7 */}
+          <div className="d-flex justify-content-center align-item-center flex-row col-12 mt-4">
+            <div className="form-floating mx-3 col-6">
+              <TextField
+                variant="outlined"
+                label="houseNumber"
+                type="number"
+                name="address.houseNumber"
+                value={formik.values.address?.houseNumber}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                fullWidth
+                error={Boolean(
+                  formik.touched.address?.houseNumber &&
+                    formik.errors.address?.houseNumber
+                )}
+                helperText={
+                  formik.touched.address?.houseNumber &&
+                  formik.errors.address?.houseNumber
+                }
+              />
+            </div>
+
+            <div className="form-floating  col-6">
+              <TextField
+                variant="outlined"
+                label="zip"
+                type="number"
+                name="address.zip"
+                value={formik.values.address?.zip}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                fullWidth
+                error={
+                  formik.touched.address?.zip &&
+                  Boolean(formik.errors.address?.zip)
+                }
+                helperText={
+                  formik.touched.address?.zip && formik.errors.address?.zip
+                }
+              />
+            </div>
+          </div>
+
+          <div className="d-flex align-items-center mt-3">
+            <label>
+              <input
+                type="checkbox"
+                name="isBusiness"
+                checked={formik.values.isBusiness}
+                onChange={formik.handleChange}
+              />
+              <span className="ms-2">Signup as business</span>
+            </label>
+          </div>
+
+          <div className="d-flex justify-content-center align-item-center flex-row col-12 mt-4">
+            <button
+              className="btn btn-primary mx-3 col-6"
+              type="submit"
+              disabled={!formik.dirty || !formik.isValid}
+            >
+              SUBMIT
+            </button>
+
+            <button
+              className="btn btn-danger mx-3 col-6"
+              type="submit"
+              disabled={!formik.dirty || !formik.isValid}
+            >
+              Cancel
+            </button>
+          </div>
         </form>
         <p className="mt-3">
-        <a onClick={()=>setIsRegister(false)}  style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}>Back to Login</a>
-          
+          <a
+            onClick={() => setIsRegister(false)}
+            style={{
+              color: "blue",
+              cursor: "pointer",
+              textDecoration: "underline",
+            }}
+          >
+            Back to Login
+          </a>
         </p>
       </div>
     </>
   );
-}
- 
+};
+
 export default Register;

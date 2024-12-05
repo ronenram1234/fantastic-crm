@@ -16,12 +16,12 @@ const Login: FunctionComponent<LoginProps> = ({ setIsRegister }) => {
 
   const formik = useFormik<UserLoginFormValues>({
     initialValues: {
-      email: "",
-      password: "",
+      email: "onetwo@email.co",
+      password: "Abc!123Abc",
     },
     validationSchema: yup.object({
-      email: yup.string().email().required().min(5),
-      password: yup.string().required().min(7).max(20),
+      email: yup.string().email().required(),
+      password: yup.string().required(),
     }),
     onSubmit: async (values) => {
       getUserToken(values)
