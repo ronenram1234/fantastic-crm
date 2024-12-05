@@ -30,7 +30,7 @@ const ModalLoginReg: FunctionComponent<ModalLoginRegProps> = () => {
       <Modal
         show={!isUserLogedin}
         // onHide={onHide}
-        size="lg"
+        size="xl"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
