@@ -7,6 +7,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { createUser } from "../services/userServices";
+import { errorMsg, successMsg } from "../services/feedbackService";
 
 interface RegisterProps {
   setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
@@ -39,7 +41,7 @@ const Register: FunctionComponent<RegisterProps> = ({ setIsRegister }) => {
         city: "Kensas city",
         street: "5 Avn.",
         houseNumber: 5,
-        zip: 46321,
+        zip: 123,
       },
       isBusiness: false,
     },
@@ -115,22 +117,22 @@ const Register: FunctionComponent<RegisterProps> = ({ setIsRegister }) => {
       isBusiness: yup.boolean().required(),
     }),
     onSubmit: async (values) => {
-      // getUser(values)
-      //   .then((res) => {
-      //     if (res.data.length > 0) {
-      //       // console.log(res.data);
-      //       // setIsUsserLogedin(true)
-      //       successMsg("Sucessful login");
-      //     } else {
-      //       console.log("User not found- ", res.data);
-      //       errorMsg("User not found");
-      //     }
-      //   }
-      // )
-      //   .catch((err) => {
-      //     console.log(err);
-      //     errorMsg(err);
-      //   });
+      createUser(values)
+        .then((res) => {
+          
+            
+            console.log("sucess ", res.data);
+            successMsg("Registration complete sucessfuly")
+            
+          }
+        )
+        .catch((err) => {
+          console.log(err);
+          
+          errorMsg(`Transaction Error - ${err.response.data}`)
+          
+          
+        });
     },
   });
 
@@ -458,8 +460,10 @@ const Register: FunctionComponent<RegisterProps> = ({ setIsRegister }) => {
 
             <button
               className="btn btn-danger mx-3 col-6"
-              type="submit"
-              disabled={!formik.dirty || !formik.isValid}
+              type="button"
+              onClick={() => {
+                setIsRegister(false);
+              }}
             >
               Cancel
             </button>

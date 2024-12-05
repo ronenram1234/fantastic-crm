@@ -5,6 +5,7 @@ import { Menu as MenuIcon, Adb as AdbIcon } from '@mui/icons-material';
 
 
 import { GlobalProps } from "../App";
+import SettingsSystemDaydreamIcon from '@mui/icons-material/SettingsSystemDaydream';
 
 interface NavBarProps {
     
@@ -37,7 +38,7 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+            <SettingsSystemDaydreamIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
             <Typography
               variant="h6"
               noWrap
@@ -53,7 +54,7 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
                 textDecoration: 'none',
               }}
             >
-              LOGO
+              Fantastic-CRM
             </Typography>
   
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -151,13 +152,13 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
             </Box>
           </Toolbar>
           <>
-          <h4> {isUserLogedin && "logdin"}</h4>
+          {/* <h4> {isUserLogedin && "logdin"}</h4>
           <br />
           <h4> {token}</h4>
-          {/* {console.log(currentUser)} */}
+          
           <br />
           <h4> {currentUser && currentUser.name.first} </h4>
-          <h4> {!isDarkMode && "not dark"}</h4>
+          <h4> {!isDarkMode && "not dark"}</h4> */}
           </>
         </Container>
       </AppBar>

@@ -5,6 +5,7 @@ export function successMsg(msg: string) {
   toast.success(msg, {
     position: "top-center",
     autoClose: 2000,
+    className: "toastify-class"
   });
 }
 
@@ -12,6 +13,7 @@ export function successMsg(msg: string) {
 export function errorMsg(msg: string) {
     toast.error(msg, {
       position: "top-center",
-      autoClose: 3000,
+      autoClose: 5000,
+      className: "toastify-class"
     });
   }

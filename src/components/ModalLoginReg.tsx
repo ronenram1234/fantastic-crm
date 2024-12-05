@@ -4,6 +4,7 @@ import Login from "./Login";
 import { GlobalProps } from "../App";
 import Register from "./Register";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ToastContainer } from "react-toastify";
 
 // import Button from "react-bootstrap/Button";
 // import { Product } from "../interfaces/Product";
@@ -44,6 +45,7 @@ const ModalLoginReg: FunctionComponent<ModalLoginRegProps> = () => {
 
   return (
     <>
+      <ToastContainer />
       <ThemeProvider theme={theme}>
         <Modal
           show={!isUserLogedin}

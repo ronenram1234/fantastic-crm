@@ -10,6 +10,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { errorMsg, successMsg } from "../services/feedbackService";
 
 interface LoginProps {
   setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,18 +38,20 @@ const Login: FunctionComponent<LoginProps> = ({ setIsRegister }) => {
       getUserToken(values)
         .then((res) => {
           if (res.data.length > 0) {
+            successMsg("Succesful login")
             console.log(res.data);
             setToken(res.data);
             setTokenLocalStorage(res.data);
             setIsUsserLogedin(true);
           } else {
-            console.log("User not found- ", res.data);
-            setMsg("User not found");
+            console.log(values.email);
+            // setMsg("User not found");
+            errorMsg(`${values.email} user not found `);
           }
         })
         .catch((err) => {
           console.log(err);
-          setMsg("Transaction Error");
+          errorMsg(`Transaction Error - ${err.response.data}`);
         });
     },
   });

@@ -42,6 +42,9 @@ export const GlobalProps = createContext<GlobalPropsType>({
   setIsDarkMode: () => {},
 });
 
+// https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark
+// dark and light mode implementation
+
 function App() {
   const localToken = getTokenLocalStorage() || "";
   // console.log(localToken);
@@ -66,42 +69,44 @@ function App() {
 
   // check if user alreadt login before
   // useSetCurrentUser();
-useEffect(()=>{
-  if (localToken !== "") {
-    // setIsUsserLogedin(true);
-    const jwtUser: Jwt = tokenToDecoode(localToken);
-    getUserDetail(jwtUser._id, localToken)
-      .then((res) => {
-        setCurrentUser(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        // alert("Transaction Error");
-        removeTokenLocalStorage();
-        setIsUsserLogedin(false);
-      });
-  }},[])
+  useEffect(() => {
+    if (localToken !== "") {
+      // setIsUsserLogedin(true);
+      const jwtUser: Jwt = tokenToDecoode(localToken);
+      getUserDetail(jwtUser._id, localToken)
+        .then((res) => {
+          setCurrentUser(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+          // alert("Transaction Error");
+          removeTokenLocalStorage();
+          setIsUsserLogedin(false);
+        });
+    }
+  }, []);
 
   return (
-    <GlobalProps.Provider value={globalContextValue}>
-      <div className="App">
-        <>
-          <ToastContainer />
+    <>
+      {/* <ToastContainer /> */}
+      <GlobalProps.Provider value={globalContextValue}>
+        <div className="App">
+          <>
+            <NavBar />
+            {console.log("App")}
+            <Router>
+              <Routes>
+                <Route path="/" element={<Main />} />
 
-          <NavBar />
-{console.log("App")}
-          <Router>
-            <Routes>
-              <Route path="/" element={<Main />} />
+                <Route path="*" element={<PageNotFound />} />
+              </Routes>
+            </Router>
 
-              <Route path="*" element={<PageNotFound />} />
-            </Routes>
-          </Router>
-
-          <Footer />
-        </>
-      </div>
-    </GlobalProps.Provider>
+            <Footer />
+          </>
+        </div>
+      </GlobalProps.Provider>
+    </>
   );
 }
 
