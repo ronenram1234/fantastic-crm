@@ -5,6 +5,11 @@ import { UserLoginFormValues } from "../interfaces/User";
 
 import { getUserToken, setTokenLocalStorage } from "../services/userServices";
 import { GlobalProps } from "../App";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 interface LoginProps {
   setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,6 +18,11 @@ interface LoginProps {
 const Login: FunctionComponent<LoginProps> = ({ setIsRegister }) => {
   const { setToken, setIsUsserLogedin } = useContext(GlobalProps);
   const [msg, setMsg] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   const formik = useFormik<UserLoginFormValues>({
     initialValues: {
@@ -20,8 +30,8 @@ const Login: FunctionComponent<LoginProps> = ({ setIsRegister }) => {
       password: "Abc!123Abc",
     },
     validationSchema: yup.object({
-      email: yup.string().email().required(),
-      password: yup.string().required(),
+      email: yup.string().email("Invalid email").required("Email is required"),
+      password: yup.string().required("Password is required"),
     }),
     onSubmit: async (values) => {
       getUserToken(values)
@@ -31,11 +41,8 @@ const Login: FunctionComponent<LoginProps> = ({ setIsRegister }) => {
             setToken(res.data);
             setTokenLocalStorage(res.data);
             setIsUsserLogedin(true);
-
-            // successMsg("Sucessful login");
           } else {
             console.log("User not found- ", res.data);
-
             setMsg("User not found");
           }
         })
@@ -47,82 +54,79 @@ const Login: FunctionComponent<LoginProps> = ({ setIsRegister }) => {
   });
 
   return (
-    <>
-      <div className="container d-flex justify-content-center align-item-center flex-column col-6">
-        <h5 className="display-5 my-2">LOGIN</h5>
-        <form onSubmit={formik.handleSubmit}>
-          <div className="form-floating mb-3">
-            <input
-              type="email"
-              className="form-control"
-              id="floatingInput"
-              placeholder="name@example.com"
-              name="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            <label htmlFor="floatingInput">Email address</label>
-            {formik.touched.email && formik.errors.email && (
-              <p className="text-danger">{formik.errors.email}</p>
-            )}
-          </div>
-          <div className="form-floating">
-            <input
-              type="password"
-              className="form-control"
-              id="floatingPassword"
-              placeholder="Password"
-              name="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            <label htmlFor="floatingPassword">Password</label>
-            {formik.touched.password && formik.errors.password && (
-              <p className="text-danger">{formik.errors.password}</p>
-            )}
-          </div>
-          <button
-            className="btn btn-primary mt-3 w-100"
-            type="submit"
-            disabled={!formik.dirty || !formik.isValid}
-          >
-            Login
-          </button>
-          <p style={{ color: "red" }}>{msg}</p>
-        </form>
-        <p className="mt-3">
-          {/* <a
-           
-            onClick={() => setIsRegister(true)}
-            style={{
-              color: "blue",
-              cursor: "pointer",
-              textDecoration: "underline",
-            }}
-          >
-            New user? Register now
-          </a> */}
+    <div className="container d-flex justify-content-center align-item-center flex-column col-6">
+      <h5 className="display-5 my-2">LOGIN</h5>
+      <form onSubmit={formik.handleSubmit}>
+        {/* Email Field */}
+        <div className="mb-3">
+          <TextField
+            variant="outlined"
+            label="Email"
+            type="email"
+            name="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            fullWidth
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+          />
+        </div>
 
-          <button
-            onClick={() => setIsRegister(true)}
-            style={{
-              color: "blue",
-              cursor: "pointer",
-              textDecoration: "underline",
-              background: "none",
-              border: "none",
-              padding: 0,
-              fontSize: "inherit",
-              fontFamily: "inherit",
+        {/* Password Field */}
+        <div className="mb-3">
+          <TextField
+            variant="outlined"
+            label="Password"
+            type={showPassword ? "text" : "password"}
+            name="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            fullWidth
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={togglePasswordVisibility} edge="end">
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
             }}
-          >
-            New user? Register now
-          </button>
-        </p>
-      </div>
-    </>
+          />
+        </div>
+
+        {/* Submit Button */}
+        <button
+          className="btn btn-primary mt-3 w-100"
+          type="submit"
+          disabled={!formik.dirty || !formik.isValid}
+        >
+          Login
+        </button>
+        <p style={{ color: "red" }}>{msg}</p>
+      </form>
+
+      <p className="mt-3">
+        <button
+          onClick={() => setIsRegister(true)}
+          style={{
+            color: "blue",
+            cursor: "pointer",
+            textDecoration: "underline",
+            background: "none",
+            border: "none",
+            padding: 0,
+            fontSize: "inherit",
+            fontFamily: "inherit",
+          }}
+        >
+          New user? Register now
+        </button>
+      </p>
+    </div>
   );
 };
 

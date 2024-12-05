@@ -1,18 +1,28 @@
-import { FunctionComponent, useContext } from "react";
+import { FunctionComponent, useContext, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { UserReg } from "../interfaces/User";
 import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 interface RegisterProps {
   setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Register: FunctionComponent<RegisterProps> = ({ setIsRegister }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   const formik = useFormik<UserReg>({
     initialValues: {
       name: {
-        first: "daniel",
+        first: "Daniel",
         middle: "",
         last: "fefer",
       },
@@ -133,10 +143,11 @@ const Register: FunctionComponent<RegisterProps> = ({ setIsRegister }) => {
           <div className="d-flex justify-content-center align-item-center flex-row col-12 mt-4">
             <div className="form-floating mx-3 col-6">
               <TextField
+                //  onChange={(e)=>{console.log(e.target)}}
                 variant="outlined"
                 label="First name"
                 type="text"
-                name="first"
+                name="name.first"
                 value={formik.values.name.first}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -156,7 +167,7 @@ const Register: FunctionComponent<RegisterProps> = ({ setIsRegister }) => {
                 variant="outlined"
                 label="Middle name"
                 type="text"
-                name="middle"
+                name="name.middle"
                 value={formik.values.name.middle}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -179,7 +190,7 @@ const Register: FunctionComponent<RegisterProps> = ({ setIsRegister }) => {
                 variant="outlined"
                 label="Last name"
                 type="text"
-                name="last"
+                name="name.last"
                 value={formik.values.name.last}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -230,7 +241,7 @@ const Register: FunctionComponent<RegisterProps> = ({ setIsRegister }) => {
               <TextField
                 variant="outlined"
                 label="Password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
@@ -240,6 +251,15 @@ const Register: FunctionComponent<RegisterProps> = ({ setIsRegister }) => {
                   formik.touched.password && Boolean(formik.errors.password)
                 }
                 helperText={formik.touched.password && formik.errors.password}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={togglePasswordVisibility} edge="end">
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             </div>
           </div>

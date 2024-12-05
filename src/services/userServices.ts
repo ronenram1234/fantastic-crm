@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { User, UserLoginFormValues } from "../interfaces/User";
+import { User, UserLoginFormValues, UserReg } from "../interfaces/User";
 import { jwtDecode } from "jwt-decode";
 import { Jwt } from "../interfaces/Jwt";
 
@@ -7,7 +7,7 @@ const api: string = `${process.env.REACT_APP_API}/users`;
 const tokenKey = "crmUserId";
 
 // access to DB
-export function createUser(user: User) {
+export function createUser(user: UserReg) {
   return axios.post(api, user);
 }
 
