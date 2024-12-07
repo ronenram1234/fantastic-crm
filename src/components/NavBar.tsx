@@ -54,7 +54,7 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
                 textDecoration: 'none',
               }}
             >
-              Fantastic-CRM
+              NexCRM 
             </Typography>
   
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
